@@ -37,9 +37,16 @@ namespace DiaryKeeper
             int year = getMinimumDirectory(getDirectories(currentDir));
             int month = getMinimumDirectory(getDirectories(currentDir + "\\" + year));
 
-            DateTime oldest = new DateTime(year, month, 1);
+            try
+            {
+                DateTime oldest = new DateTime(year, month, 1);
 
-            return oldest;
+                return oldest;
+            }
+            catch(Exception e)
+            {
+                return DateTime.Today;
+            }
         }
 
         /**
@@ -49,9 +56,17 @@ namespace DiaryKeeper
         private List<String> getDirectories(String path)
         {
             List<String> list = new List<String>();
-            String[] dirs = System.IO.Directory.GetDirectories(path, "*", System.IO.SearchOption.TopDirectoryOnly);
-            foreach(String dir in dirs){
-                list.Add(System.IO.Path.GetFileName(dir));
+            try
+            {
+                String[] dirs = System.IO.Directory.GetDirectories(path, "*", System.IO.SearchOption.TopDirectoryOnly);
+                foreach (String dir in dirs)
+                {
+                    list.Add(System.IO.Path.GetFileName(dir));
+                }
+            }
+            catch (Exception e)
+            {
+
             }
             return list;
         }
@@ -89,6 +104,12 @@ namespace DiaryKeeper
         public void saveDiary(string text, DateTime day)
         {
             string currentDir = System.IO.Directory.GetCurrentDirectory();
+
+            if (prepareDirectory(day) == false)
+            {
+                return;
+            }
+
             Cipher cp = new Cipher();
             string encript = cp.Encrypt(text);
             try
@@ -125,6 +146,30 @@ namespace DiaryKeeper
             }
 
             return edited;
+        }
+
+        /**
+         * ディレクトリを用意する
+         */
+        private bool prepareDirectory(DateTime date)
+        {
+            string currentDir = System.IO.Directory.GetCurrentDirectory();
+
+            try
+            {
+                System.IO.Directory.CreateDirectory(currentDir + "\\" + date.Year + "\\" + date.Month);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                System.Windows.MessageBox.Show("Unable to create directory at " + currentDir + "\\" + date.Year + "\\" + date.Month);
+                return false;
+            }
+            catch (Exception e)
+            {
+                
+            }
+
+            return true;
         }
 
         /**
