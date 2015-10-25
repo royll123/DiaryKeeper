@@ -1,0 +1,16 @@
+﻿<Window x:Class="DiaryKeeper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="483.853" Width="669.409">
+
+    <Window.Resources>
+        <ResourceDictionary Source="calendar.xaml" />
+    </Window.Resources>
+
+    <Grid Margin="0,0,2,1" Background="Gainsboro">
+        <DatePicker x:Name="datePicker" SelectedDate="{Binding Date}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" CalendarStyle="{DynamicResource calendarStyle}" SelectedDateChanged="datePicker_SelectedDateChanged"/>
+        <RichTextBox x:Name="diaryBox" Margin="10,40,10,10" TextChanged="diaryBox_TextChanged" Background="White" MinHeight="99" MinWidth="10" VerticalScrollBarVisibility="Auto" FontSize="14" FontFamily="Meiryo UI">
+            <FlowDocument/>
+        </RichTextBox>
+    </Grid>
+</Window>

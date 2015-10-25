@@ -1,0 +1,7 @@
+# VisualStudio
+*.sln
+*.suo
+
+# binaries
+DiaryKeeper/bin
+DiaryKeeper/obj
