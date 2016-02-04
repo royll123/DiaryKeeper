@@ -154,14 +154,14 @@ namespace DiaryKeeper
         private bool prepareDirectory(DateTime date)
         {
             string currentDir = System.IO.Directory.GetCurrentDirectory();
-
+            string relativePath = String.Format(@"\{0:0000}\{1:00}", date.Year, date.Month);
             try
             {
-                System.IO.Directory.CreateDirectory(currentDir + "\\" + date.Year + "\\" + date.Month);
+                System.IO.Directory.CreateDirectory(currentDir + relativePath);
             }
             catch (UnauthorizedAccessException e)
             {
-                System.Windows.MessageBox.Show("Unable to create directory at " + currentDir + "\\" + date.Year + "\\" + date.Month);
+                System.Windows.MessageBox.Show("Unable to create directory at " + currentDir + relativePath);
                 return false;
             }
             catch (Exception e)
